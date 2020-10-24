@@ -4,7 +4,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText 
 from email.mime.base import MIMEBase 
 from email import encoders 
+import os
 
+pandas.DataFrame({}).to_csv('testing.csv')
 data = pandas.read_csv('testing.csv')
 
 data['gotit'] = 'KK'
@@ -36,8 +38,8 @@ body = "Body_of_the_mail"
 msg.attach(MIMEText(body, 'plain')) 
 
 # open the file to be sent 
-filename = "File_name_with_extension"
-attachment = open("Path of the file", "rb") 
+filename = "testing.csv"
+attachment = open('testing.csv', "rb") 
 
 # instance of MIMEBase and named as p 
 p = MIMEBase('application', 'octet-stream') 
@@ -59,8 +61,9 @@ s = smtplib.SMTP('smtp.gmail.com', 587)
 # start TLS for security 
 s.starttls() 
 
+pw = os.environ['GMAIL_HEROKU_PW']
 # Authentication 
-s.login(fromaddr, "Password_of_the_sender") 
+s.login(fromaddr, pw) 
 
 # Converts the Multipart msg into a string 
 text = msg.as_string() 
